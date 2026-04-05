@@ -1,0 +1,40 @@
+/* STAT CARDS */
+.stat-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+  font-weight: 500;
+}
+
+.stat-card h3 {
+  margin-top: 10px;
+}
+
+/* COLORS */
+.blue { background: #e7f0ff; color: #0d6efd; }
+.yellow { background: #fff4e5; color: #f59e0b; }
+.purple { background: #f3e8ff; color: #7c3aed; }
+.green { background: #e6f7ee; color: #10b981; }
+
+/* BADGES */
+.badge-dark { background: #111; color: #fff; }
+.badge-green { background: #10b981; color: #fff; }
+.badge-red { background: #ef4444; color: #fff; }
+.badge-blue { background: #3b82f6; color: #fff; }
+.badge-gray { background: #e5e7eb; color: #333; }
+
+/* ACTIONS */
+.actions i {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+/* TABLE */
+.table th {
+  font-size: 13px;
+  color: #777;
+}
+
+.table td {
+  font-size: 14px;
+}

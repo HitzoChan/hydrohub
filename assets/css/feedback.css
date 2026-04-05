@@ -1,0 +1,30 @@
+.stat-card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.stars {
+  color: gold;
+  font-size: 18px;
+}
+
+.review-card {
+  border-bottom: 1px solid #eee;
+  padding: 12px 0;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.review-name {
+  font-weight: 600;
+}
+
+.review-text {
+  font-size: 14px;
+  color: #555;
+}

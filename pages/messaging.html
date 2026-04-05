@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Messaging - HydroHub</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="../assets/css/dashboard.css">
+  <link rel="stylesheet" href="../assets/css/messaging.css">
+</head>
+<body>
+
+<div class="d-flex">
+
+  <!-- SIDEBAR -->
+  <div id="sidebar-container"></div>
+
+  <!-- MAIN -->
+  <div class="main-content bg-light">
+
+    <!-- HEADER -->
+    <div id="header-container"></div>
+
+    <h4 class="fw-semibold">Messaging & Communication</h4>
+    <p class="text-muted">Monitor conversations between customers and drivers</p>
+
+    <div class="row g-3">
+
+      <!-- LEFT: CONVERSATIONS -->
+      <div class="col-md-3">
+
+        <div class="card p-3 h-100">
+
+          <input class="form-control mb-2" placeholder="Search conversations...">
+
+          <select class="form-select mb-3">
+            <option>All Conversations</option>
+          </select>
+
+          <div class="conversation active">
+            <strong>Maria Santos</strong>
+            <small>Driver: John Driver</small>
+            <p>On my way, will arrive in 15 minutes</p>
+            <span class="badge bg-danger">2</span>
+          </div>
+
+          <div class="conversation">
+            <strong>Juan Dela Cruz</strong>
+            <small>Driver: Mike Rider</small>
+            <p>Thank you for your order!</p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- CENTER: CHAT -->
+      <div class="col-md-6">
+
+        <div class="card p-3 chat-box">
+
+          <div class="chat-header mb-3">
+            <strong>Maria Santos ↔ John Driver</strong>
+            <small>Order: ORD-1234 • In Transit</small>
+          </div>
+
+          <div class="chat-messages">
+
+            <div class="message left">
+              Hi, when will my order arrive?
+              <span>10:15 AM</span>
+            </div>
+
+            <div class="message right">
+              Hello! I'm currently on my way.
+              <span>10:16 AM</span>
+            </div>
+
+            <div class="message left">
+              How long will it take?
+              <span>10:17 AM</span>
+            </div>
+
+            <div class="message right">
+              Around 15 minutes.
+              <span>10:18 AM</span>
+            </div>
+
+          </div>
+
+          <!-- INPUT -->
+          <div class="chat-input mt-3">
+            <input type="text" placeholder="Type a message...">
+            <button class="btn btn-dark">Send</button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- RIGHT: DETAILS -->
+      <div class="col-md-3">
+
+        <div class="card p-3 mb-3">
+          <h6>Customer</h6>
+          <p>Maria Santos</p>
+          <p>+63 912 345 6789</p>
+          <p>123 Main St, Manila</p>
+        </div>
+
+        <div class="card p-3 mb-3">
+          <h6>Driver</h6>
+          <p>John Driver</p>
+          <p>+63 923 456 7890</p>
+        </div>
+
+        <div class="card p-3">
+          <h6>Order Details</h6>
+          <p>Order ID: ORD-1234</p>
+          <p>Status: In Transit</p>
+          <p>Total: ₱250</p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div id="footer-container"></div>
+
+  </div>
+
+</div>
+
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/messaging.js"></script>
+
+</body>
+</html>

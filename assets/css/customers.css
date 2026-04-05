@@ -1,0 +1,68 @@
+/* SEARCH BAR */
+.search-card {
+  border-radius: 12px;
+}
+
+.search-input {
+  display: flex;
+  align-items: center;
+  background: #f5f7fb;
+  padding: 8px 12px;
+  border-radius: 8px;
+  gap: 10px;
+}
+
+.search-input input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+}
+
+/* TABLE */
+.custom-table th {
+  font-size: 13px;
+  color: #888;
+}
+
+.custom-table td {
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+/* ORDERS BADGE */
+.orders-badge {
+  background: #eef1f6;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+/* STATUS */
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-badge.active {
+  background: #111;
+  color: #fff;
+}
+
+.status-badge.inactive {
+  background: #e5e7eb;
+  color: #333;
+}
+
+/* ACTION ICONS */
+.action-icon {
+  margin-left: 10px;
+  cursor: pointer;
+  color: #555;
+}
+
+.action-icon:hover {
+  color: #000;
+}

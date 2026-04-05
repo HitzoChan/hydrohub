@@ -1,0 +1,21 @@
+.stat-card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.cod-box {
+  background: #eef8f2;
+}
+
+.cash-card {
+  background: #fff;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.cash-card.success { border-left: 5px solid green; }
+.cash-card.pending { border-left: 5px solid blue; }
+
+.trend.up { color: green; }
+.trend.down { color: red; }

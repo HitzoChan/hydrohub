@@ -1,0 +1,32 @@
+/* CARD */
+.inv-card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+}
+
+/* PURPLE */
+.text-purple {
+  color: #7c3aed;
+}
+
+.bg-purple {
+  background: #7c3aed;
+}
+
+/* STATUS */
+.status {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.status.active {
+  background: #111;
+  color: #fff;
+}
+
+.status.overdue {
+  background: #f97316;
+  color: #fff;
+}
