@@ -32,9 +32,23 @@
 /* TABLE */
 .table th {
   font-size: 13px;
+  font-weight: 600;
   color: #777;
 }
 
 .table td {
-  font-size: 14px;
+  font-size: 12px;
+}
+
+.table td,
+.table th {
+  padding: 10px 12px;
+  vertical-align: middle;
+}
+
+.table tbody td {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

@@ -34,28 +34,28 @@
       <div class="col-md-3">
         <div class="stat-card blue">
           <span>Total Orders</span>
-          <h3>6</h3>
+          <h3 id="totalOrdersStat">0</h3>
         </div>
       </div>
 
       <div class="col-md-3">
         <div class="stat-card yellow">
-          <span>Payment Pending</span>
-          <h3>3</h3>
+          <span>Pending</span>
+          <h3 id="pendingOrdersStat">0</h3>
         </div>
       </div>
 
       <div class="col-md-3">
         <div class="stat-card purple">
-          <span>Awaiting Verification</span>
-          <h3>2</h3>
+          <span>On the Way</span>
+          <h3 id="onTheWayOrdersStat">0</h3>
         </div>
       </div>
 
       <div class="col-md-3">
         <div class="stat-card green">
-          <span>Verified</span>
-          <h3>1</h3>
+          <span>Delivered</span>
+          <h3 id="deliveredOrdersStat">0</h3>
         </div>
       </div>
 
@@ -66,19 +66,33 @@
       <div class="d-flex gap-3 flex-wrap">
         <input class="form-control flex-grow-1" placeholder="Search by order ID or customer name...">
 
-        <select class="form-select w-auto">
-          <option>All Orders</option>
+        <select id="statusFilter" class="form-select w-auto">
+          <option value="all">All Orders</option>
+          <option value="pending">Pending</option>
+          <option value="on_the_way">On the Way</option>
+          <option value="delivered">Delivered</option>
+          <option value="scheduled">Scheduled</option>
         </select>
 
-        <select class="form-select w-auto">
-          <option>All Payments</option>
+        <select id="paymentFilter" class="form-select w-auto">
+          <option value="all">All Payments</option>
+          <option value="unpaid">Unpaid</option>
+          <option value="cod">Cash on Delivery</option>
+          <option value="paid">Paid</option>
+          <option value="verified">Verified</option>
+        </select>
+
+        <select id="deliveryTypeFilter" class="form-select w-auto">
+          <option value="all">All Delivery Types</option>
+          <option value="now">Deliver Now</option>
+          <option value="scheduled">Scheduled</option>
         </select>
       </div>
     </div>
 
     <!-- TABLE -->
     <div class="card p-3">
-      <h6>All Orders (6)</h6>
+      <h6 id="ordersTableTitle">All Orders (0)</h6>
 
       <div class="table-responsive">
         <table class="table align-middle">
@@ -90,48 +104,15 @@
               <th>Containers</th>
               <th>Amount</th>
               <th>Exchange</th>
+              <th>Delivery Type</th>
               <th>Driver</th>
               <th>Status</th>
-              <th>Payment</th>
-              <th>Scheduled</th>
+              <th>Created At</th>
               <th>Actions</th>
             </tr>
           </thead>
 
-          <tbody>
-
-            <tr>
-              <td>ORD-1234</td>
-              <td>Maria Santos</td>
-              <td>2 × 5-Gallon</td>
-              <td class="text-success">₱500</td>
-              <td><span class="badge badge-dark">With Exchange</span></td>
-              <td><span class="badge badge-green">Available</span></td>
-              <td><span class="badge badge-dark">Delivered</span></td>
-              <td><span class="badge badge-green">Verified</span></td>
-              <td>10:00 AM</td>
-              <td class="actions">
-                <i class="bi bi-eye"></i>
-                <i class="bi bi-chat"></i>
-              </td>
-            </tr>
-
-            <tr>
-              <td>ORD-1236</td>
-              <td>Anna Reyes</td>
-              <td>3 × 5-Gallon</td>
-              <td class="text-success">₱750</td>
-              <td><span class="badge badge-gray">Without Exchange</span></td>
-              <td><span class="badge badge-red">Busy</span></td>
-              <td><span class="badge badge-dark">Delivered</span></td>
-              <td><span class="badge badge-blue">Paid</span></td>
-              <td>08:30 AM</td>
-              <td>
-                <button class="btn btn-success btn-sm">Verify</button>
-              </td>
-            </tr>
-
-          </tbody>
+          <tbody id="ordersTable"></tbody>
 
         </table>
       </div>
@@ -143,6 +124,9 @@
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../config/supabase.js"></script>
+<script src="../assets/js/supabaseClient.js"></script>
 <script src="../assets/js/orders.js"></script>
 <script src="../assets/js/main.js"></script>
 </body>

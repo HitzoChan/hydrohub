@@ -10,6 +10,9 @@
 
   <link rel="stylesheet" href="../assets/css/dashboard.css">
   <link rel="stylesheet" href="../assets/css/customers.css">
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
 
@@ -63,7 +66,7 @@
           <thead>
             <tr>
               <th>Name</th>
-              <th>Contact</th>
+              <th>Phone</th>
               <th>Email</th>
               <th>Address</th>
               <th>Orders</th>
@@ -72,86 +75,7 @@
             </tr>
           </thead>
 
-          <tbody>
-
-            <tr>
-              <td class="fw-semibold">Maria Santos</td>
-              <td>+63 912 345 6789</td>
-              <td class="text-muted">maria.santos@email.com</td>
-              <td>123 Main St, Manila</td>
-              <td><span class="orders-badge">24 orders</span></td>
-              <td><span class="status-badge active">Active</span></td>
-              <td class="text-end">
-                <i class="bi bi-eye action-icon"></i>
-                <i class="bi bi-chat action-icon"></i>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="fw-semibold">Juan Dela Cruz</td>
-              <td>+63 923 456 7890</td>
-              <td class="text-muted">juan.delacruz@email.com</td>
-              <td>456 Rizal Ave, Quezon City</td>
-              <td><span class="orders-badge">18 orders</span></td>
-              <td><span class="status-badge active">Active</span></td>
-              <td class="text-end">
-                <i class="bi bi-eye action-icon"></i>
-                <i class="bi bi-chat action-icon"></i>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="fw-semibold">Anna Reyes</td>
-              <td>+63 934 567 8901</td>
-              <td class="text-muted">anna.reyes@email.com</td>
-              <td>789 Bonifacio St, Makati</td>
-              <td><span class="orders-badge">32 orders</span></td>
-              <td><span class="status-badge active">Active</span></td>
-              <td class="text-end">
-                <i class="bi bi-eye action-icon"></i>
-                <i class="bi bi-chat action-icon"></i>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="fw-semibold">Pedro Garcia</td>
-              <td>+63 945 678 9012</td>
-              <td class="text-muted">pedro.garcia@email.com</td>
-              <td>321 Del Pilar St, Pasig</td>
-              <td><span class="orders-badge">12 orders</span></td>
-              <td><span class="status-badge active">Active</span></td>
-              <td class="text-end">
-                <i class="bi bi-eye action-icon"></i>
-                <i class="bi bi-chat action-icon"></i>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="fw-semibold">Sofia Rodriguez</td>
-              <td>+63 956 789 0123</td>
-              <td class="text-muted">sofia.rodriguez@email.com</td>
-              <td>654 Luna St, Taguig</td>
-              <td><span class="orders-badge">8 orders</span></td>
-              <td><span class="status-badge inactive">Inactive</span></td>
-              <td class="text-end">
-                <i class="bi bi-eye action-icon"></i>
-                <i class="bi bi-chat action-icon"></i>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="fw-semibold">Carlos Mendoza</td>
-              <td>+63 967 890 1234</td>
-              <td class="text-muted">carlos.mendoza@email.com</td>
-              <td>987 Mabini St, Manila</td>
-              <td><span class="orders-badge">28 orders</span></td>
-              <td><span class="status-badge active">Active</span></td>
-              <td class="text-end">
-                <i class="bi bi-eye action-icon"></i>
-                <i class="bi bi-chat action-icon"></i>
-              </td>
-            </tr>
-
+          <tbody id="customersTable">
           </tbody>
 
         </table>
@@ -166,6 +90,8 @@
 
 </div>
 
+<script src="../config/supabase.js"></script>
+<script src="../assets/js/supabaseClient.js"></script>
 <script src="../assets/js/main.js"></script>
 <script src="../assets/js/customers.js"></script>
 </body>

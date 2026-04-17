@@ -2,27 +2,82 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>HydroHub Login</title>
+  <title>Login - Aqua in Laba</title>
 
-  <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/login.css">
 
-  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- Lottie -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </head>
-<body class="bg-light d-flex align-items-center justify-content-center vh-100">
 
-  <div class="card p-4 shadow-sm" style="width: 350px;">
-    <h3 class="text-center mb-2">HydroHub</h3>
-    <p class="text-center text-muted">Admin / Staff Login</p>
+<body>
 
-    <input type="email" id="email" class="form-control mb-3" placeholder="Email">
-    <input type="password" id="password" class="form-control mb-3" placeholder="Password">
+<div class="login-page d-flex align-items-center justify-content-center">
+  <div class="auth-panel row gx-0 shadow-lg">
 
-    <button class="btn btn-primary w-100" onclick="login()">Login</button>
+    <div class="hero-panel col-md-6 d-none d-md-flex align-items-center">
+      <div class="hero-content">
+        <span class="eyebrow">Aqua en Lavaba</span>
+        <h1>Pure water. Fresh start.</h1>
+        <p>Clean, modern login designed for your refilling station. Secure access for both admin and staff.</p>
 
-    <p id="error" class="text-danger mt-2 text-center"></p>
+        <div class="hero-features">
+          <div class="feature-item">Fast access to daily operations</div>
+          <div class="feature-item">Secure supervision and reporting</div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <lottie-player
+          src="https://assets10.lottiefiles.com/packages/lf20_w51pcehl.json"
+          background="transparent"
+          speed="1"
+          style="width: 320px;"
+          loop autoplay>
+        </lottie-player>
+      </div>
+    </div>
+
+    <div class="form-panel col-12 col-md-6 d-flex align-items-center justify-content-center">
+      <div class="login-card">
+        <div class="brand-block text-center mb-4">
+          
+          <h4 id="loginHeading">Admin Login</h4>
+          <p class="text-muted" id="loginSubtitle">Enter your admin credentials to access the dashboard</p>
+        </div>
+
+        <div class="role-toggle mb-3">
+          <button id="adminBtn" class="role-btn active" onclick="selectRole('admin')">Admin</button>
+          <button id="staffBtn" class="role-btn" onclick="selectRole('staff')">Staff</button>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input id="email" type="email" class="form-control" placeholder="Enter your email">
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input id="password" type="password" class="form-control" placeholder="Enter your password">
+        </div>
+
+        <button class="btn btn-login w-100 mb-3" onclick="login()">Login</button>
+
+        <div id="error" class="text-danger small mb-3"></div>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <a href="#" class="text-muted small">Forgot Password?</a>
+          <a href="#" class="text-muted small" onclick="openCreateAccount()">Create Account</a>
+        </div>
+        </div>
+      </div>
+    </div>
+
   </div>
+</div>
 
-  <script src="assets/js/main.js"></script>
+<script src="assets/js/main.js"></script>
+
 </body>
 </html>

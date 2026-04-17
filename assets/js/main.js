@@ -1,17 +1,61 @@
-function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
 
-  if (email === "admin" && password === "123456") {
-    localStorage.setItem("user", JSON.stringify({
-      email: email,
-      role: "admin"
-    }));
 
-    window.location.href = "dashboard.html";
-  } else {
-    document.getElementById("error").innerText = "Invalid login credentials";
+let selectedRole = 'admin';
+
+function selectRole(role) {
+  selectedRole = role;
+
+  const adminBtn = document.getElementById('adminBtn');
+  const staffBtn = document.getElementById('staffBtn');
+  const loginHeading = document.getElementById('loginHeading');
+  const loginSubtitle = document.getElementById('loginSubtitle');
+
+  if (adminBtn && staffBtn) {
+    adminBtn.classList.toggle('active', role === 'admin');
+    staffBtn.classList.toggle('active', role === 'staff');
   }
+
+  if (loginHeading && loginSubtitle) {
+    if (role === 'admin') {
+      loginHeading.textContent = 'Admin Login';
+      loginSubtitle.textContent = 'Enter your admin credentials to access the dashboard';
+    } else {
+      loginHeading.textContent = 'Staff Login';
+      loginSubtitle.textContent = 'Enter your staff credentials to access the dashboard';
+    }
+  }
+}
+
+function login() {
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const errorEl = document.getElementById('error');
+
+  errorEl.innerText = '';
+
+  if (!email || !password) {
+    errorEl.innerText = 'Please enter both email and password.';
+    return;
+  }
+
+  if (selectedRole === 'admin') {
+    if (email === 'admin' && password === '123456') {
+      localStorage.setItem('user', JSON.stringify({ email, role: 'admin' }));
+      window.location.href = 'dashboard.html';
+      return;
+    }
+  } else {
+    // Staff login accepts any non-empty credentials for now
+    localStorage.setItem('user', JSON.stringify({ email, role: 'staff' }));
+    window.location.href = 'dashboard.html';
+    return;
+  }
+
+  errorEl.innerText = 'Invalid login credentials.';
+}
+
+function openCreateAccount() {
+  window.location.href = 'create-account.html';
 }
 
 /* =========================

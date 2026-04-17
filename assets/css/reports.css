@@ -19,3 +19,12 @@
 
 .trend.up { color: green; }
 .trend.down { color: red; }
+
+.report-filter-controls .btn {
+  border-radius: 8px;
+}
+
+.custom-range-panel {
+  border: 1px solid #e7edf3;
+  box-shadow: 0 4px 14px rgba(16, 24, 40, 0.06);
+}

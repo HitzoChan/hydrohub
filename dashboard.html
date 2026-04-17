@@ -40,7 +40,7 @@
             <i class="bi bi-receipt text-primary me-2"></i>
             <small>Total Orders Today</small>
           </div>
-          <h4>48</h4>
+          <h4 id="totalOrders">--</h4>
         </div>
       </div>
 
@@ -50,7 +50,7 @@
             <i class="bi bi-truck text-success me-2"></i>
             <small>Active Deliveries</small>
           </div>
-          <h4>14</h4>
+          <h4 id="activeOrders">--</h4>
         </div>
       </div>
 
@@ -60,7 +60,7 @@
             <i class="bi bi-people text-info me-2"></i>
             <small>Total Customers</small>
           </div>
-          <h4>1243</h4>
+          <h4 id="totalCustomers">--</h4>
         </div>
       </div>
 
@@ -70,7 +70,7 @@
             <i class="bi bi-cash text-warning me-2"></i>
             <small>Revenue Today</small>
           </div>
-          <h4>₱24,500</h4>
+          <h4 id="revenue">--</h4>
         </div>
       </div>
 
@@ -80,7 +80,7 @@
             <i class="bi bi-chat-dots text-danger me-2"></i>
             <small>Unread Messages</small>
           </div>
-          <h4>5</h4>
+          <h4 id="unreadMessages">--</h4>
         </div>
       </div>
 
@@ -99,6 +99,7 @@
       <div class="col-md-6">
         <div class="card chart-box">
           <h6>Today's Deliveries</h6>
+          <div class="mb-2 text-muted">Completed deliveries today: <strong id="todayDeliveriesCount">0</strong></div>
           <canvas id="deliveryChart"></canvas>
         </div>
       </div>
@@ -108,28 +109,7 @@
     <!-- TRANSACTIONS -->
     <div class="card p-4 shadow-sm">
       <h6 class="mb-3">Recent Transactions</h6>
-
-      <div class="transaction">
-        <span class="customer-name">Maria Santos</span>
-        <span class="date">Apr 3, 2024</span>
-        <span class="amount">₱250</span>
-        <span class="status"><span class="badge bg-dark">Delivered</span></span>
-      </div>
-
-      <div class="transaction">
-        <span class="customer-name">Juan Dela Cruz</span>
-        <span class="date">Apr 3, 2024</span>
-        <span class="amount">₱500</span>
-        <span class="status"><span class="badge bg-secondary">In Transit</span></span>
-      </div>
-
-      <div class="transaction">
-        <span class="customer-name">Anna Reyes</span>
-        <span class="date">Apr 2, 2024</span>
-        <span class="amount">₱350</span>
-        <span class="status"><span class="badge bg-dark">Delivered</span></span>
-      </div>
-
+      <div id="recentTransactions"></div>
     </div>
     
     <div id="footer-container"></div>
@@ -137,6 +117,9 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config/supabase.js"></script>
+<script src="assets/js/supabaseClient.js"></script>
 <script src="assets/js/dashboard.js"></script>
 <script src="assets/js/main.js"></script>
 

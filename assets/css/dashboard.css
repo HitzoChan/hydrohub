@@ -29,6 +29,15 @@ body {
   font-weight: 600;
 }
 
+.sidebar-logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 14px auto;
+}
+
 .sidebar .nav-link {
   color: #555;
   padding: 10px;
@@ -257,18 +266,34 @@ body {
    FOOTER
 ======================= */
 .footer {
-  margin-top: 30px;
-  padding-top: 15px;
+  margin-top: 28px;
+  padding-top: 14px;
+  padding-bottom: 4px;
   border-top: 1px solid #eee;
   font-size: 13px;
+  row-gap: 8px;
 }
 
 .footer a {
   color: #666;
+  font-weight: 500;
 }
 
 .footer a:hover {
   color: #0d6efd;
+}
+
+.footer-copy {
+  letter-spacing: 0.01em;
+}
+
+.footer-links {
+  color: #6b7280;
+}
+
+.footer-version {
+  padding-right: 10px;
+  border-right: 1px solid #e5e7eb;
 }
 
 
@@ -305,6 +330,22 @@ body {
 
   .card {
     padding: 15px;
+  }
+
+  .footer {
+    justify-content: center !important;
+    text-align: center;
+  }
+
+  .footer-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .footer-version {
+    border-right: none;
+    padding-right: 0;
   }
 }
 
