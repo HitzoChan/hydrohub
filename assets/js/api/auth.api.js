@@ -18,12 +18,5 @@ export async function loginUser(email, password) {
     };
   }
 
-  if (email === "staff@gmail.com" && password === "123456") {
-    return {
-      success: true,
-      user: { role: "staff", email }
-    };
-  }
-
   return { success: false };
 }

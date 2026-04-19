@@ -30,7 +30,7 @@
         <p class="text-muted mb-0">Track and manage all deliveries</p>
       </div>
 
-      <button class="btn btn-dark">
+      <button id="assignDeliveryBtn" class="btn btn-dark" type="button">
         <i class="bi bi-truck me-1"></i> Assign New Delivery
       </button>
     </div>
@@ -43,7 +43,7 @@
           <i class="bi bi-truck"></i>
           <div>
             <small>In Transit</small>
-            <h4>3</h4>
+            <h4 id="inTransitCount">0</h4>
           </div>
         </div>
       </div>
@@ -53,7 +53,7 @@
           <i class="bi bi-truck"></i>
           <div>
             <small>Delivered</small>
-            <h4>1</h4>
+            <h4 id="deliveredCount">0</h4>
           </div>
         </div>
       </div>
@@ -63,7 +63,7 @@
           <i class="bi bi-truck"></i>
           <div>
             <small>Pending</small>
-            <h4>1</h4>
+            <h4 id="pendingCount">0</h4>
           </div>
         </div>
       </div>
@@ -73,7 +73,7 @@
           <i class="bi bi-person"></i>
           <div>
             <small>Active Drivers</small>
-            <h4>3</h4>
+            <h4 id="activeDriversCount">0</h4>
           </div>
         </div>
       </div>
@@ -86,11 +86,15 @@
 
         <div class="search-input flex-grow-1">
           <i class="bi bi-search"></i>
-          <input type="text" placeholder="Search by customer, driver, or order ID...">
+          <input id="deliverySearch" type="text" placeholder="Search by customer, driver, or order ID...">
         </div>
 
-        <select class="form-select w-auto">
-          <option>All Deliveries</option>
+        <select id="deliveryStatusFilter" class="form-select w-auto">
+          <option value="all">All Deliveries</option>
+          <option value="pending">Pending</option>
+          <option value="assigned">Assigned</option>
+          <option value="in_transit">In Transit</option>
+          <option value="delivered">Delivered</option>
         </select>
 
       </div>
@@ -99,7 +103,7 @@
     <!-- TABLE -->
     <div class="card p-3">
 
-      <h6 class="mb-3">All Deliveries (5)</h6>
+      <h6 id="deliveriesTitle" class="mb-3">All Deliveries (0)</h6>
 
       <div class="table-responsive">
         <table class="table align-middle deliveries-table">
@@ -118,54 +122,7 @@
             </tr>
           </thead>
 
-          <tbody>
-
-            <tr>
-              <td>DEL-001</td>
-              <td class="text-muted">ORD-1234</td>
-              <td>Maria Santos</td>
-              <td>John Driver</td>
-              <td class="text-muted">123 Main St, Manila</td>
-              <td>10:00 AM - 12:00 PM</td>
-              <td><span class="eta">15 mins</span></td>
-              <td><span class="status in-transit">In Transit</span></td>
-              <td class="text-end">
-                <i class="bi bi-geo-alt action-icon"></i>
-                <i class="bi bi-chat action-icon"></i>
-              </td>
-            </tr>
-
-            <tr>
-              <td>DEL-003</td>
-              <td class="text-muted">ORD-1236</td>
-              <td>Anna Reyes</td>
-              <td>John Driver</td>
-              <td class="text-muted">789 Bonifacio St, Makati</td>
-              <td>8:00 AM - 10:00 AM</td>
-              <td><span class="eta done">Completed</span></td>
-              <td><span class="status delivered">Delivered</span></td>
-              <td class="text-end">
-                <i class="bi bi-geo-alt action-icon"></i>
-                <i class="bi bi-chat action-icon"></i>
-              </td>
-            </tr>
-
-            <tr>
-              <td>DEL-005</td>
-              <td class="text-muted">ORD-1238</td>
-              <td>Sofia Rodriguez</td>
-              <td>Mike Rider</td>
-              <td class="text-muted">654 Luna St, Taguig</td>
-              <td>2:00 PM - 4:00 PM</td>
-              <td><span class="eta pending">Not started</span></td>
-              <td><span class="status pending">Pending</span></td>
-              <td class="text-end">
-                <i class="bi bi-geo-alt action-icon"></i>
-                <i class="bi bi-chat action-icon"></i>
-              </td>
-            </tr>
-
-          </tbody>
+          <tbody id="deliveriesTableBody"></tbody>
 
         </table>
       </div>
@@ -179,6 +136,28 @@
 
 </div>
 
+<div id="assignModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.3); z-index:1050;">
+  <div style="background:#fff;padding:20px; max-width:420px; margin:120px auto; border-radius:10px;">
+    <h3>Assign Delivery</h3>
+
+    <label for="orderSelect">Order:</label>
+    <select id="orderSelect" name="order" style="width:100%; margin-top:6px;"></select>
+
+    <br><br>
+
+    <label for="driverSelect">Driver:</label>
+    <select id="driverSelect" name="driver" style="width:100%; margin-top:6px;"></select>
+
+    <br><br>
+
+    <button type="button" onclick="assignDelivery()">Assign</button>
+    <button type="button" onclick="closeAssignModal()">Cancel</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../config/supabase.js"></script>
+<script src="../assets/js/supabaseClient.js"></script>
 <script src="../assets/js/main.js"></script>
 <script src="../assets/js/deliveries.js"></script>
 </body>

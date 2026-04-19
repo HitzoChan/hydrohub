@@ -86,3 +86,9 @@
   margin-left: 10px;
   cursor: pointer;
 }
+
+button {
+  pointer-events: auto;
+  position: relative;
+  z-index: 10;
+}

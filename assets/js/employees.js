@@ -175,6 +175,16 @@ function setEmployeeViewField(fieldId, value) {
   element.textContent = value || "N/A";
 }
 
+function getDriverStatusBadge(driverStatus) {
+  const normalizedStatus = String(driverStatus || "").toLowerCase();
+
+  if (normalizedStatus === "online") {
+    return '<span class="badge bg-success ms-2">🟢 Online</span>';
+  }
+
+  return '<span class="badge bg-danger ms-2">🔴 Offline</span>';
+}
+
 function viewEmployee(employeeId) {
   const row = document.querySelector(`#employeesTableBody button[onclick*="${employeeId}"]`)?.closest("tr");
 
@@ -295,6 +305,7 @@ function renderEmployees(employees) {
     const normalizedCodeStatus = String(emp.code_status || "").toLowerCase();
     const statusClass = normalizedStatus === "active" || normalizedStatus === "available" ? "bg-success" : "bg-secondary";
     const codeClass = normalizedCodeStatus === "activated" ? "bg-success" : "bg-warning text-dark";
+    const driverStatusBadge = String(emp.role || "").toLowerCase() === "driver" ? getDriverStatusBadge(emp.driver_status) : "";
 
     table.innerHTML += `
       <tr>
@@ -308,7 +319,7 @@ function renderEmployees(employees) {
           <div>${emp.phone || "N/A"}</div>
           <small class="text-muted">${emp.address || [emp.street, emp.barangay, emp.city, emp.province].filter(Boolean).join(", ") || "No address"}</small>
         </td>
-        <td><span class="badge ${statusClass}">${emp.status || "available"}</span></td>
+        <td><span class="badge ${statusClass}">${emp.status || "available"}</span>${driverStatusBadge}</td>
         <td class="code">${emp.access_code || "N/A"}</td>
         <td><span class="badge ${codeClass}">${emp.code_status || "activated"}</span></td>
         <td>

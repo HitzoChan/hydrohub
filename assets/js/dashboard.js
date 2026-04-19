@@ -255,6 +255,7 @@ async function loadDashboard() {
     // ACTIVE ORDERS
     const activeOrders = orders.filter(order =>
       order.status === 'pending' ||
+      order.status === 'assigned' ||
       order.status === 'on_the_way'
     ).length;
 
@@ -342,6 +343,7 @@ async function loadRecentOrders() {
 function getStatusBadge(status) {
   const statusMap = {
     'pending': '<span class="badge bg-warning">Pending</span>',
+    'assigned': '<span class="badge bg-info">Assigned</span>',
     'on_the_way': '<span class="badge bg-info">In Transit</span>',
     'delivered': '<span class="badge bg-success">Delivered</span>',
     'cancelled': '<span class="badge bg-danger">Cancelled</span>',

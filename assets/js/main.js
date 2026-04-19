@@ -1,30 +1,5 @@
 
-
-let selectedRole = 'admin';
-
-function selectRole(role) {
-  selectedRole = role;
-
-  const adminBtn = document.getElementById('adminBtn');
-  const staffBtn = document.getElementById('staffBtn');
-  const loginHeading = document.getElementById('loginHeading');
-  const loginSubtitle = document.getElementById('loginSubtitle');
-
-  if (adminBtn && staffBtn) {
-    adminBtn.classList.toggle('active', role === 'admin');
-    staffBtn.classList.toggle('active', role === 'staff');
-  }
-
-  if (loginHeading && loginSubtitle) {
-    if (role === 'admin') {
-      loginHeading.textContent = 'Admin Login';
-      loginSubtitle.textContent = 'Enter your admin credentials to access the dashboard';
-    } else {
-      loginHeading.textContent = 'Staff Login';
-      loginSubtitle.textContent = 'Enter your staff credentials to access the dashboard';
-    }
-  }
-}
+const role = 'admin';
 
 function login() {
   const email = document.getElementById('email').value.trim();
@@ -38,15 +13,8 @@ function login() {
     return;
   }
 
-  if (selectedRole === 'admin') {
-    if (email === 'admin' && password === '123456') {
-      localStorage.setItem('user', JSON.stringify({ email, role: 'admin' }));
-      window.location.href = 'dashboard.html';
-      return;
-    }
-  } else {
-    // Staff login accepts any non-empty credentials for now
-    localStorage.setItem('user', JSON.stringify({ email, role: 'staff' }));
+  if (role === 'admin' && email === 'admin' && password === '123456') {
+    localStorage.setItem('user', JSON.stringify({ email, role: 'admin' }));
     window.location.href = 'dashboard.html';
     return;
   }

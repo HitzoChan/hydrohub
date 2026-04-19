@@ -12,6 +12,33 @@ function hasAccessCode(value) {
   return String(value).trim().length > 0;
 }
 
+function isAssignedStatus(status) {
+  return status === 'assigned' || status === 'on_the_way';
+}
+
+function isAssignableDriverStatus(status) {
+  const normalizedStatus = getNormalizedStatusForAssignment(status);
+  return normalizedStatus === 'available' || normalizedStatus === 'busy';
+}
+
+function formatDriverLoad(activeOrdersCount, maxOrders = 5) {
+  return `${activeOrdersCount}/${maxOrders}`;
+}
+
+async function getDriverActiveOrderCount(driverId) {
+  const { data, error } = await supabaseClient
+    .from('orders')
+    .select('id')
+    .eq('driver_id', driverId)
+    .in('status', ['assigned', 'on_the_way']);
+
+  if (error) {
+    throw error;
+  }
+
+  return Array.isArray(data) ? data.length : 0;
+}
+
 function getNormalizedStatusForAssignment(status) {
   const normalized = normalizeText(status);
   if (normalized === 'active') {
@@ -30,6 +57,7 @@ async function getAvailableDrivers() {
       .from('employees')
       .select('*')
       .eq('role', 'driver')
+      .eq('driver_status', 'online')
       .order('id', { ascending: true });
 
     if (error) {
@@ -40,34 +68,63 @@ async function getAvailableDrivers() {
 
     console.log('All drivers (role=driver):', drivers || []);
 
-    const filteredDrivers = (drivers || []).filter((driver) => {
+    const driverLoadCandidates = await Promise.all((drivers || []).map(async (driver) => {
       const statusForAssignment = getNormalizedStatusForAssignment(driver.status);
       const validAccessCode = hasAccessCode(driver.access_code);
+      const isOnlineDriver = String(driver.driver_status || '').toLowerCase() === 'online';
 
-      if (statusForAssignment !== 'available' || !validAccessCode) {
+      if (!isOnlineDriver || !isAssignableDriverStatus(driver.status) || !validAccessCode) {
         console.log('Driver filtered out:', {
           id: driver.id,
           name: driver.name,
           role: driver.role,
           status: driver.status,
+          driver_status: driver.driver_status,
           normalizedStatus: statusForAssignment,
           access_code: driver.access_code,
           reason: [
-            statusForAssignment !== 'available' ? 'status not available' : null,
+            !isOnlineDriver ? 'driver_status not online' : null,
+            !isAssignableDriverStatus(driver.status) ? 'status not assignable' : null,
             !validAccessCode ? 'access_code is null/empty' : null,
           ].filter(Boolean).join(', '),
         });
-        return false;
+        return null;
       }
 
-      return true;
-    });
+      try {
+        const activeOrdersCount = await getDriverActiveOrderCount(driver.id);
+
+        if (activeOrdersCount >= 5) {
+          console.log('Driver filtered out due to load limit:', {
+            id: driver.id,
+            name: driver.name,
+            activeOrdersCount,
+            maxOrders: 5,
+          });
+          return null;
+        }
+
+        return {
+          ...driver,
+          activeOrdersCount,
+        };
+      } catch (loadError) {
+        console.error('Failed to load driver order count:', {
+          id: driver.id,
+          name: driver.name,
+          error: loadError,
+        });
+        return null;
+      }
+    }));
+
+    const filteredDrivers = driverLoadCandidates.filter(Boolean);
 
     console.log('Filtered available drivers:', filteredDrivers);
 
     if (!filteredDrivers.length) {
-      console.error('No available drivers found. Check driver status or access_code.');
-      alert('No available drivers found. Please check driver status.');
+      console.error('No assignable drivers found. Check driver status, access_code, or order load.');
+      alert('No available drivers found. Please check driver status or order load.');
       return [];
     }
 
@@ -123,8 +180,14 @@ function applyFilters(orders) {
   const deliveryType = document.getElementById('deliveryTypeFilter')?.value || 'all';
 
   return orders.filter(order => {
-    if (status !== 'all' && order.status !== status) {
-      return false;
+    if (status !== 'all') {
+      const matchesStatus = status === 'on_the_way'
+        ? isAssignedStatus(order.status)
+        : order.status === status;
+
+      if (!matchesStatus) {
+        return false;
+      }
     }
 
     if (payment !== 'all' && order.payment_status !== payment) {
@@ -158,14 +221,13 @@ function displayOrders(orders) {
   if (!orders.length) {
     table.innerHTML = `
       <tr>
-        <td colspan="10" class="text-center text-muted py-4">No orders found.</td>
+        <td colspan="9" class="text-center text-muted py-4">No orders found.</td>
       </tr>
     `;
     return;
   }
 
   orders.forEach((order) => {
-    const actionCell = renderActionCell(order);
     const row = `
       <tr>
         <td title="${order.id ?? ""}">${formatOrderId(order.id)}</td>
@@ -177,7 +239,6 @@ function displayOrders(orders) {
         <td title="${order.driver_id || ""}">${formatDriverId(order.driver_id)}</td>
         <td>${formatStatus(order.status)}</td>
         <td>${formatTime(order.created_at)}</td>
-        <td>${actionCell}</td>
       </tr>
     `;
     table.innerHTML += row;
@@ -199,7 +260,7 @@ function updateOrderStats(orders) {
   const deliveredOrdersStat = document.getElementById("deliveredOrdersStat");
 
   const pending = orders.filter((order) => order.status === "pending").length;
-  const onTheWay = orders.filter((order) => order.status === "on_the_way").length;
+  const onTheWay = orders.filter((order) => isAssignedStatus(order.status)).length;
   const delivered = orders.filter((order) => order.status === "delivered").length;
 
   if (totalOrdersStat) totalOrdersStat.textContent = String(orders.length);
@@ -210,6 +271,7 @@ function updateOrderStats(orders) {
 
 function formatStatus(status) {
   if (status === "pending") return "🟠 Pending";
+  if (status === "assigned") return "🔵 Assigned";
   if (status === "on_the_way") return "🔵 On the Way";
   if (status === "delivered") return "🟢 Delivered";
   return status || "Unknown";
@@ -235,25 +297,28 @@ function formatDriverId(driverId) {
   return `${value.slice(0, 8)}...`;
 }
 
-function renderActionCell(order) {
-  if (order.status === 'pending') {
-    return `<button class="btn btn-primary btn-sm" onclick="acceptOrder('${order.id}')">Accept & Assign</button>`;
-  }
-
-  if (order.status === 'on_the_way') {
-    return `<span style="color: #0d6efd; font-weight: 500;">🚚 Assigned</span>`;
-  }
-
-  if (order.status === 'delivered') {
-    return `<span style="color: green; font-weight: 500;">✔ Completed</span>`;
-  }
-
-  return '-';
-}
-
 async function acceptOrder(orderId) {
   try {
     console.log(`Accepting order ${orderId}...`);
+
+    const { data: currentOrder, error: currentOrderError } = await supabaseClient
+      .from('orders')
+      .select('status')
+      .eq('id', orderId)
+      .single();
+
+    if (currentOrderError) {
+      console.error('Failed to fetch current order status:', currentOrderError);
+      alert('Failed to verify order status. Please try again.');
+      return;
+    }
+
+    if (currentOrder?.status === 'on_the_way') {
+      console.log(`Order ${orderId} is already on the way. Leaving existing status unchanged.`);
+      alert('This order is already on the way.');
+      await loadOrders();
+      return;
+    }
 
     // Fetch available drivers
     const drivers = await getAvailableDrivers();
@@ -270,15 +335,36 @@ async function acceptOrder(orderId) {
       return;
     }
 
+    if (String(selectedDriver.driver_status || '').toLowerCase() !== 'online') {
+      alert('Driver is offline');
+      await loadOrders();
+      return;
+    }
+
+    const currentLoad = typeof selectedDriver.activeOrdersCount === 'number'
+      ? selectedDriver.activeOrdersCount
+      : await getDriverActiveOrderCount(selectedDriver.id);
+
+    if (currentLoad >= 5) {
+      console.warn('Selected driver is at capacity:', {
+        id: selectedDriver.id,
+        name: selectedDriver.name,
+        activeOrdersCount: currentLoad,
+      });
+      alert(`Driver already has maximum orders (${formatDriverLoad(currentLoad)}).`);
+      await loadOrders();
+      return;
+    }
+
     console.log('Selected driver:', selectedDriver);
-    console.log(`Assigning driver: ${selectedDriver.name} (${selectedDriver.id})`);
+    console.log(`Assigning driver: ${selectedDriver.name} (${selectedDriver.id}) with load ${formatDriverLoad(currentLoad)}`);
 
     // Update order with driver and status
     const { error: orderError } = await supabaseClient
       .from('orders')
       .update({
         driver_id: selectedDriver.id,
-        status: 'on_the_way'
+        status: 'assigned'
       })
       .eq('id', orderId);
 
@@ -298,8 +384,8 @@ async function acceptOrder(orderId) {
       console.error('Failed to update driver status:', driverError);
     }
 
-    console.log(`✅ Order ${orderId} assigned to driver ${selectedDriver.name}`);
-    alert(`Order assigned to ${selectedDriver.name}`);
+    console.log(`✅ Order ${orderId} assigned to driver ${selectedDriver.name} (${formatDriverLoad(currentLoad + 1)})`);
+    alert(`Order assigned to ${selectedDriver.name} (${formatDriverLoad(currentLoad + 1)})`);
     await loadOrders();
   } catch (error) {
     console.error('Unexpected acceptOrder error:', error);
